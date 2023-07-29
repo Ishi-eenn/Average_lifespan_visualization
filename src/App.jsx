@@ -106,9 +106,9 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 
 function App() {
 	const options = [
-		{ value: "population", label: "人口" },
-		{ value: "lifeSpan", label: "寿命" },
-		{ value: "medicalExpenses", label: "医療費" },
+		{ value: "人口", label: "人口" },
+		{ value: "寿命", label: "寿命" },
+		{ value: "医療費", label: "医療費" },
 	];
 	const [selectedXValue, setSelectedXValue] = useState(options[0]);
 	const [selectedYValue, setSelectedYValue] = useState(options[1]);
