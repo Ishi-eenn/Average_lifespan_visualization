@@ -65,7 +65,7 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 			</g>
 			{
 				clickedCircleData && data.filter((item) => item.year !== yearValue && item.name === clickedCircleData.name).map((data, index) => (
-					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill="gray" stroke="Black" style={{ transition: "cx 2s, cy 2s" }} onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
+					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill="gray" stroke="Black" onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
 					))
 			}
 			{
@@ -73,7 +73,7 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill={color(data.area)} stroke='Black' style={{ transition: "cx 2s, cy 2s" }} onMouseOver={() => setSelectedCircleData(data)} onMouseOut={() => setSelectedCircleData(null)} onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
 				))
 			}
-			<g transform="translate(950, -300)" >
+			<g transform="translate(950, -500)" >
 				{
 					Array.from(setArea).map((area, index) => (
 						<g key={index} transform={`translate(${xaxis}, ${yaxis + index * 20})`}>
