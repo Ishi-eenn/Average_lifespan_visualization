@@ -26,16 +26,14 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 		.domain(d3.extent(data, item => item[rProperty]))
 		.range([5, 100])
 		.nice();
+	const color = d3.scaleOrdinal(d3.schemeCategory10);
+		for (const item of data) {
+			color(item.area)
+		}
 	const colorScale = d3.scaleLinear()
-		.domain([0, 30])
+		.domain(d3.extent(data, item => item["year"]))
 		.range(["Black", "White"]);
 
-	console.log(colorScale(0));
-
-	const color = d3.scaleOrdinal(d3.schemeCategory10);
-	for (const item of data) {
-		color(item.area)
-	}
 	const setArea = new Set(data.map((data) => {
 		return data.area;
 	}));
@@ -70,7 +68,7 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 			</g>
 			{
 				clickedCircleData && data.filter((item) => item.year !== yearValue && item.name === clickedCircleData.name).map((data, index) => (
-					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill={colorScale(index)} stroke="null" onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
+					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill={colorScale(data["year"])} stroke="null" onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
 					))
 			}
 			{
