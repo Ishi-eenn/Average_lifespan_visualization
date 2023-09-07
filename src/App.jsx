@@ -4,14 +4,18 @@ import * as d3 from "d3";
 import data from './data.json'
 import { useCallback } from 'react';
 
-function DrawData({ XValue, YValue, RValue, yearValue}) {
+
+// import { DndProvider, useDrag, useDrop } from "react-dnd";
+// import HTML5Backend from "react-dnd-html5-backend";
+
+function DrawData({ DataArray, yearValue}) {
 	const w = 1200;
 	const h = 800;
 	const xaxis = 100;
 	const yaxis = h - 100;
-	const xProperty = XValue.value;
-	const yProperty = YValue.value;
-	const rProperty = RValue.value;
+	const xProperty = DataArray[0];
+	const yProperty = DataArray[1];
+	const rProperty = DataArray[2];
 	const [selectedCircleData, setSelectedCircleData] = useState(null);
 	const [clickedCircleData, setClickedCircleData] = useState(null);
 	// const [colorScale, setColorScale] = useState(null);
@@ -123,17 +127,25 @@ function App() {
 		{ value: "寿命", label: "寿命" },
 		{ value: "医療費", label: "医療費" },
 	];
-	const [selectedXValue, setSelectedXValue] = useState(options[0]);
-	const [selectedYValue, setSelectedYValue] = useState(options[1]);
-	const [selectedRValue, setSelectedRValue] = useState(options[2]);
 	const [isAutoPlay, setIsAutoPlay] = useState(true);
 	const [checkYear, setCheckYear] = useState(1990);
+	const [dragged, setDragged] = useState(null);
+	const [array, setArray] = useState(["人口", "寿命", "医療費"]);
 
 	const handleAutoPlayToggle = () => {
 		if(checkYear == 2020)
 			setCheckYear(1990);
 		setIsAutoPlay(!isAutoPlay);
 	};
+
+	const swap = (item1, item2) => {
+		const buf = array[item1]
+		array[item1] = array[item2];
+		array[item2] = buf;
+		setArray([...array]);
+	}
+
+	// const array = [selectedXValue, selectedYValue, selectedRValue];
 
 	useEffect(() => {
 		let intervalId;
@@ -155,30 +167,24 @@ function App() {
 
 	return (
 		<div style={{ width: "300px", margin: "50px" }} >
-			<p>Horizontal Axis</p>
-			<Select options={options} defaultValue={selectedXValue} onChange={(value) => {
-				if (value) {
-					setSelectedXValue(value);
-				}
-			}}
-			/>
-			<p>Vertical Axis</p>
-			<Select options={options} defaultValue={selectedYValue} onChange={(value) => {
-				if (value) {
-					setSelectedYValue(value);
-				}
-			}}
-			/>
-			<p>Circle Size</p>
-			<Select options={options} defaultValue={selectedRValue} onChange={(value) => {
-				if (value) {
-					setSelectedRValue(value);
-				}
-			}}/>
+			{array.map((element) => {
+				return (
+				<p key={element} onDragStart={(event) => {
+					setDragged(event.target.textContent);
+				}} onDrop={(event) => {
+					event.preventDefault();
+					swap(array.indexOf(event.target.textContent), array.indexOf(dragged));
+				}} onDragOver={(event) => {
+					event.preventDefault();
+				}}
+				draggable="true" >{element}</p>
+				)
+			})}
+
 			<p>Annual Variation</p>
 			<button onClick={handleAutoPlayToggle}>{isAutoPlay ? "停止" : "再生"}</button>
 			<label><input type="range" min="1990" max="2020" step="1" value={checkYear} onChange={(event) => setCheckYear(event.target.value)}/>{checkYear}年</label>
-			<DrawData XValue={selectedXValue} YValue={selectedYValue} RValue={selectedRValue} yearValue={checkYear}/>
+			<DrawData DataArray={array} yearValue={checkYear}/>
 		</div>
 	);
 }
