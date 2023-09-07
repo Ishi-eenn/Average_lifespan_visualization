@@ -47,7 +47,7 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 				{
 					xScale.ticks().map((data, index) => {
 						return (
-							<g transform={`translate(${xScale(data)}, 700)`} key={index} >
+							<g transform={`translate(${xScale(data)}, 700)`} style={{userSelect: "none"}} key={index} >
 								<line x1="0" y1="0" x2="0" y2="5" stroke="black" />
 								<text x="0" y="15" textAnchor='middle' dominantBaseline="central"  fontSize="12" >{data}</text>
 							</g>
@@ -60,7 +60,7 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 				{
 					yScale.ticks().map((data, index) => {
 						return (
-							<g transform={`translate(100, ${yScale(data)})`} key={index} >
+							<g transform={`translate(100, ${yScale(data)})`} style={{userSelect: "none"}} key={index} >
 								<line x1="0" y1="0" x2="-5" y2="0" stroke="black" />
 								<text x="-15" y="0" textAnchor="end" dominantBaseline="central"  fontSize="12" >{data}</text>
 							</g>
@@ -75,23 +75,23 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 			}
 			{
 				data.filter((item) => item.year == yearValue).map((data, index) => (
-					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill={color(data.area)} stroke='Black' style={{ transition: "cx 2s, cy 2s" }} onMouseOver={() => setSelectedCircleData(data)} onMouseOut={() => setSelectedCircleData(null)} onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
+					<circle key={index} cx={xScale(data[xProperty])} cy={yScale(data[yProperty])} r={rScale(data[rProperty])} fill={color(data.area)} stroke="null" style={{ transition: "cx 2s, cy 2s", cursor:"pointer"}} onMouseOver={() => setSelectedCircleData(data)} onMouseOut={() => setSelectedCircleData(null)} onClick={() => setClickedCircleData((prevData) => prevData === data ? null : data)}/>
 				))
 			}
 			<g transform="translate(950, -500)" >
 				{
 					Array.from(setArea).map((area, index) => (
-						<g key={index} transform={`translate(${xaxis}, ${yaxis + index * 20})`}>
+						<g key={index} style={{userSelect: "none"}} transform={`translate(${xaxis}, ${yaxis + index * 20})`}>
 							<rect x="0" y="0" width="10" height="10" fill={color(area)} ></rect>
 							<text x="15" y="5" dominantBaseline="middle" fontSize="16" >{area}</text>
 						</g>
 					))
 				}
 			</g>
-			<g transform={`translate(${w / 2 - 100}, ${h - 60})`}>
+			<g transform={`translate(${w / 2 - 100}, ${h - 60})`} style={{userSelect: "none"}}>
 				<text x="0" y="0" textAnchor="middle" dominantBaseline="middle" fontSize="16" >{xProperty}</text>
 			</g>
-			<text x={400} y={(h - 780) / 2 + yaxis} textAnchor="middle" dominantBaseline="middle" fontSize="16" transform={`rotate(-90, 60, ${(h - yaxis) / 2 + yaxis})`} >
+			<text x={400} y={(h - 780) / 2 + yaxis} style={{userSelect: "none"}} textAnchor="middle" dominantBaseline="middle" fontSize="16" transform={`rotate(-90, 60, ${(h - yaxis) / 2 + yaxis})`} >
 				{yProperty}
 			</text>
 			{selectedCircleData && (
