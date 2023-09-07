@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from "react-select";
 import * as d3 from "d3";
 import data from './data.json'
+import { useCallback } from 'react';
 
 function DrawData({ XValue, YValue, RValue, yearValue}) {
 	const w = 1200;
@@ -13,6 +14,15 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 	const rProperty = RValue.value;
 	const [selectedCircleData, setSelectedCircleData] = useState(null);
 	const [clickedCircleData, setClickedCircleData] = useState(null);
+	// const [colorScale, setColorScale] = useState(null);
+
+	// useEffect(() => {
+	// useCallback(() => {
+	// 	const colorTest = d3.scaleLinear()
+	// 		.domain(d3.extent(data, item => item["year"]))
+	// 		.range(clickedCircleData ? clickedCircleData : "Black", "White");
+	// 	setColorScale(colorTest);
+	// }, [clickedCircleData, setClickedCircleData]);
 
 	const xScale = d3.scaleLinear()
 		.domain(d3.extent(data, item => item[xProperty]))
@@ -32,7 +42,7 @@ function DrawData({ XValue, YValue, RValue, yearValue}) {
 		}
 	const colorScale = d3.scaleLinear()
 		.domain(d3.extent(data, item => item["year"]))
-		.range(["Black", "White"]);
+		.range(["White", clickedCircleData ? color(clickedCircleData.area) : "Black"]);
 
 	const setArea = new Set(data.map((data) => {
 		return data.area;
