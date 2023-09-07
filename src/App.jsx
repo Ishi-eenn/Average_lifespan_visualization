@@ -122,6 +122,8 @@ function App() {
 	const [checkYear, setCheckYear] = useState(1990);
 
 	const handleAutoPlayToggle = () => {
+		if(checkYear == 2020)
+			setCheckYear(1990);
 		setIsAutoPlay(!isAutoPlay);
 	};
 
