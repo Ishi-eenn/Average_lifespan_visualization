@@ -11,7 +11,7 @@ function DrawData({ DataArray, yearValue}) {
 	const w = 1200;
 	const h = 700;
 	const xaxis = 100;
-	const yaxis = h - 100;
+	const yaxis = h - 150;
 	const xProperty = DataArray[0];
 	const yProperty = DataArray[1];
 	const rProperty = DataArray[2];
@@ -24,7 +24,7 @@ function DrawData({ DataArray, yearValue}) {
 		.nice();
 	const yScale = d3.scaleLinear()
 		.domain(d3.extent(data, item => item[yProperty]))
-		.range([600, 100])
+		.range([550, 50])
 		.nice();
 	const rScale = d3.scaleLinear()
 		.domain(d3.extent(data, item => item[rProperty]))
@@ -49,7 +49,7 @@ function DrawData({ DataArray, yearValue}) {
 				{
 					xScale.ticks().map((data, index) => {
 						return (
-							<g transform={`translate(${xScale(data)}, 600)`} style={{userSelect: "none"}} key={index} >
+							<g transform={`translate(${xScale(data)}, 550)`} style={{userSelect: "none"}} key={index} >
 								<line x1="0" y1="0" x2="0" y2="5" stroke="black" />
 								<text x="0" y="15" textAnchor='middle' dominantBaseline="central"  fontSize="12" >{data}</text>
 							</g>
@@ -57,7 +57,7 @@ function DrawData({ DataArray, yearValue}) {
 					})
 				}
 			</g>
-			<line x1={xaxis} y1={xaxis} x2={xaxis} y2={yaxis} stroke="black" />
+			<line x1={xaxis} y1={xaxis - 55} x2={xaxis} y2={yaxis} stroke="black" />
 			<g>
 				{
 					yScale.ticks().map((data, index) => {
@@ -83,21 +83,21 @@ function DrawData({ DataArray, yearValue}) {
 			<g transform="translate(950, -500)" >
 				{
 					Array.from(setArea).map((area, index) => (
-						<g key={index} style={{userSelect: "none"}} transform={`translate(${xaxis}, ${600 + index * 20})`}>
+						<g key={index} style={{userSelect: "none"}} transform={`translate(${xaxis}, ${530 + index * 20})`}>
 							<rect x="0" y="0" width="10" height="10" fill={color(area)} ></rect>
 							<text x="15" y="5" dominantBaseline="middle" fontSize="16" >{area}</text>
 						</g>
 					))
 				}
 			</g>
-			<g transform={`translate(${w / 2 - 100}, ${h - 60})`} style={{userSelect: "none"}}>
+			<g transform={`translate(${w / 2 - 100}, ${h - 100})`} style={{userSelect: "none"}}>
 				<text x="0" y="0" textAnchor="middle" dominantBaseline="middle" fontSize="16" >{xProperty}</text>
 			</g>
-			<text x={390} y={(h - 630) / 2 + yaxis} style={{userSelect: "none"}} textAnchor="middle" dominantBaseline="middle" fontSize="16" transform={`rotate(-90, 60, ${(h - yaxis) / 2 + yaxis})`} >
+			<text x={385} y={(h - 580) / 2 + yaxis} style={{userSelect: "none"}} textAnchor="middle" dominantBaseline="middle" fontSize="16" transform={`rotate(-90, 60, ${(h - yaxis) / 2 + yaxis})`} >
 				{yProperty}
 			</text>
 			{selectedCircleData && (
-				<g transform="translate(1100, 250)">
+				<g transform="translate(1100, 180)">
 					<rect x="-100" y="-20" width="200" height="150" fill="none" stroke="black" />
 					<text x="0" y="0" textAnchor="middle" dominantBaseline="middle" fontSize="16">選択したサークル:</text>
 					<text x="0" y="25" textAnchor="middle" dominantBaseline="middle" fontSize="14">大陸 {selectedCircleData.area}</text>
@@ -150,15 +150,16 @@ function App() {
 
 	return (
 		<div style={{width: "10%", display: "inline-block", margin: "0px"}}>
-			<div style={{transform: "translate(1050px, 510px)", userSelect: "none"}} >
+			<DrawData DataArray={array} yearValue={checkYear}/>
+			<div style={{transform: "translate(1050px, -380px)", userSelect: "none"}} >
 				<p style={{display: "inline-block", margin: "0px"}}>  x座標 : </p>
 				<p style={{transform: "translate(-50px, 40px)", display: "inline-block", margin: "0px"}}>  y座標 : </p>
-				<p style={{transform: "translate(-121px, 80px)", display: "inline-block", margin: "0px"}}>サークル : </p>
+				<p style={{transform: "translate(-21px, 55px)", display: "inline-block", margin: "0px"}}>サークル : </p>
 			</div>
 			{
 				array.map((element, index) => {
 					return (
-						<p style={{ transform: `translate(${1150 - index * 31}px, ${485 + index * 40}px)`, cursor:"pointer", display: "inline-block", margin: "0px"}} key={element} onDragStart={(event) => {
+						<p style={{ transform: `translate(${1150 - index * 31}px, ${-428 + index * 40}px)`, cursor:"pointer", display: "inline-block", margin: "0px"}} key={element} onDragStart={(event) => {
 							setDragged(event.target.textContent);
 						}} onDrop={(event) => {
 							event.preventDefault();
@@ -168,7 +169,7 @@ function App() {
 						}}
 						draggable="true" >{element}</p>
 			)})}
-			<div style={{ transform: "translate(500px, 600px)", display: "inline-block", margin: "0px"}} >
+			<div style={{ transform: "translate(980px, -320px)", display: "inline-block", margin: "0px"}} >
 				<Slider aria-label="Temperature"
 						style={{ width: "300px", height: "2px" }}
 						defaultValue={1990}
@@ -180,12 +181,11 @@ function App() {
 						max={2020}
 						value={checkYear} onChange={(event) => setCheckYear(event.target.value)}
 				/>
-				<p style={{transform: "translate(-230px, 25px)", display: "inline-block", margin: "0px"}}>{checkYear}年</p>
-				<div style={{transform: "translate(150px, -10px)"}}>
+				<p style={{transform: "translate(60px, 0px)", display: "inline-block", margin: "0px"}}>{checkYear}年</p>
+				<div style={{transform: "translate(150px, -30px)"}}>
 					<Button variant="contained" onClick={handleAutoPlayToggle} >{isAutoPlay ? "停止" : "再生"}</Button>
 				</div>
 			</div>
-			<DrawData DataArray={array} yearValue={checkYear}/>
 		</div>
 	);
 }
