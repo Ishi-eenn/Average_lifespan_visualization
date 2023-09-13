@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from "d3";
 import data from './data.json'
+import "./App.css"
 import { Button, Slider, Typography, Toolbar } from "@mui/material";
 
 function valuetext(value) {
@@ -149,41 +150,46 @@ function App() {
 	}, [checkYear, isAutoPlay]);
 
 	return (
-		<div style={{width: "10%", display: "inline-block", margin: "0px"}}>
-			<DrawData DataArray={array} yearValue={checkYear}/>
-			<div style={{transform: "translate(1050px, -380px)", userSelect: "none"}} >
-				<p style={{display: "inline-block", margin: "0px"}}>  x座標 : </p>
-				<p style={{transform: "translate(-50px, 40px)", display: "inline-block", margin: "0px"}}>  y座標 : </p>
-				<p style={{transform: "translate(-21px, 55px)", display: "inline-block", margin: "0px"}}>サークル : </p>
+		<div>
+			<div className="header">
+				<h1>平均寿命と医療費の関係性</h1>
 			</div>
-			{
-				array.map((element, index) => {
-					return (
-						<p style={{ transform: `translate(${1150 - index * 31}px, ${-428 + index * 40}px)`, cursor:"pointer", display: "inline-block", margin: "0px"}} key={element} onDragStart={(event) => {
-							setDragged(event.target.textContent);
-						}} onDrop={(event) => {
-							event.preventDefault();
-							swap(array.indexOf(event.target.textContent), array.indexOf(dragged));
-						}} onDragOver={(event) => {
-							event.preventDefault();
-						}}
-						draggable="true" >{element}</p>
-			)})}
-			<div style={{ transform: "translate(980px, -320px)", display: "inline-block", margin: "0px"}} >
-				<Slider aria-label="Temperature"
-						style={{ width: "300px", height: "2px" }}
-						defaultValue={1990}
-						getAriaValueText={valuetext}
-						valueLabelDisplay="auto"
-						step={1}
-						marks
-						min={1990}
-						max={2020}
-						value={checkYear} onChange={(event) => setCheckYear(event.target.value)}
-				/>
-				<p style={{transform: "translate(60px, 0px)", display: "inline-block", margin: "0px"}}>{checkYear}年</p>
-				<div style={{transform: "translate(150px, -30px)"}}>
-					<Button variant="contained" onClick={handleAutoPlayToggle} >{isAutoPlay ? "停止" : "再生"}</Button>
+			<div className="contents" style={{width: "10%", display: "inline-block", margin: "0px"}}>
+				<DrawData DataArray={array} yearValue={checkYear}/>
+				<div style={{transform: "translate(1050px, -380px)", userSelect: "none"}} >
+					<p style={{display: "inline-block", margin: "0px"}}>  x座標 : </p>
+					<p style={{transform: "translate(-50px, 40px)"}}>  y座標 : </p>
+					<p style={{transform: "translate(-21px, 55px)"}}>サークル : </p>
+				</div>
+				{
+					array.map((element, index) => {
+						return (
+							<p style={{ transform: `translate(${1150 - index * 31}px, ${-428 + index * 40}px)`, cursor:"pointer"}} key={element} onDragStart={(event) => {
+								setDragged(event.target.textContent);
+							}} onDrop={(event) => {
+								event.preventDefault();
+								swap(array.indexOf(event.target.textContent), array.indexOf(dragged));
+							}} onDragOver={(event) => {
+								event.preventDefault();
+							}}
+							draggable="true" >{element}</p>
+				)})}
+				<div style={{ transform: "translate(980px, -320px)"}} >
+					<Slider aria-label="Temperature"
+							style={{ width: "300px", height: "2px" }}
+							defaultValue={1990}
+							getAriaValueText={valuetext}
+							valueLabelDisplay="auto"
+							step={1}
+							marks
+							min={1990}
+							max={2020}
+							value={checkYear} onChange={(event) => setCheckYear(event.target.value)}
+					/>
+					<p style={{transform: "translate(60px, 0px)"}}>{checkYear}年</p>
+					<div style={{transform: "translate(150px, -30px)"}}>
+						<Button variant="contained" onClick={handleAutoPlayToggle} >{isAutoPlay ? "停止" : "再生"}</Button>
+					</div>
 				</div>
 			</div>
 		</div>

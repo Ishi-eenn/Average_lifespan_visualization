@@ -1,0 +1,22 @@
+body {
+	margin: 0;
+	padding: 0;
+	user-select: none;
+}
+p {
+	display: inline-block;
+	margin: 0px;
+}
+
+.contents {
+	margin: 0;
+	padding: 0;
+	user-select: none;
+	height: fit-content;
+}
+
+.header {
+	background-color: gainsboro;
+	display: flex;
+	padding: 5px;
+}
