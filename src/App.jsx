@@ -151,10 +151,10 @@ function App() {
 
 	return (
 		<div>
-			<div className="header">
+			<div class="header">
 				<h1>平均寿命と医療費の関係性</h1>
 			</div>
-			<div className="contents" style={{width: "10%", display: "inline-block", margin: "0px"}}>
+			<div class="contents" style={{width: "10%", display: "inline-block", margin: "0px"}}>
 				<DrawData DataArray={array} yearValue={checkYear}/>
 				<div style={{transform: "translate(1050px, -380px)", userSelect: "none"}} >
 					<p style={{display: "inline-block", margin: "0px"}}>  x座標 : </p>
